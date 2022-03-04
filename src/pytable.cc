@@ -26,6 +26,7 @@
 //# $Id: pytable.cc,v 1.5 2006/11/08 00:12:55 gvandiep Exp $
 
 #include <casacore/tables/Tables/TableProxy.h>
+#include <casacore/tables/Tables/PlainTable.h>
 
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycValueHolder.h>
@@ -38,9 +39,25 @@
 using namespace boost::python;
 
 namespace casacore { namespace python {
-
+  
+  // Not going to do the full PlainTable interface
+  // just the "System-behavioural" routines
+  class TableSubSystem {
+  public:
+    TableSubSystem() {}
+    void useTableCachePerThread() { PlainTable::useTableCachePerThread(); }
+    void useProcessWideTableCache() { PlainTable::useProcessWideTableCache(); }
+    bool isUsingTableCachePerProcess() { return PlainTable::isUsingTableCachePerProcess(); }
+  };
+  
   void pytable()
   {
+    class_<TableSubSystem> ("TableSubSystem",
+            init<>())
+      .def ("_useTableCachePerThread", &PlainTable::useTableCachePerThread)
+      .def ("_useProcessWideTableCache", &PlainTable::useProcessWideTableCache)
+      .def ("_isUsingTableCachePerProcess", &PlainTable::isUsingTableCachePerProcess);
+
     // Note that all constructors must have a different number of arguments.
     class_<TableProxy> ("Table",
             init<>())

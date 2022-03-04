@@ -163,7 +163,6 @@ def taql(command, style='Python', tables=[], globals={}, locals={}):
 # alias
 tablecommand = taql
 
-
 class table(Table):
     """The Python interface to Casacore tables.
 

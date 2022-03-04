@@ -48,7 +48,7 @@ BOOST_PYTHON_MODULE(_tables)
   casacore::python::register_convert_casa_valueholder();
   casacore::python::register_convert_casa_record();
   casacore::python::register_convert_std_vector<casacore::TableProxy>();
-
+  
   casacore::python::pytable();
   casacore::python::pytablerow();
   casacore::python::pytableiter();
